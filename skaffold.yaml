@@ -1,0 +1,23 @@
+apiVersion: skaffold/v2beta15
+kind: Config
+## Mention all the different config files we want to use in the cluster.
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+## Build the image, don't push it to docker hub 
+build:
+  local:
+    push: false
+  artifacts:
+      ## Which image to use?
+    - image: st/auth
+      ## Folder which contains all the files for this image
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      ## Sync the files from the local machine to the container
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .

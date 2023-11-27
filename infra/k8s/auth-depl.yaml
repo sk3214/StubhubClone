@@ -1,12 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
+## Describe the deployment
 metadata:
   name: auth-depl
+## Mention the specs and find it when it is running.
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: auth
+## Describes how to create each individual pod
   template:
     metadata:
       labels:
@@ -16,10 +19,12 @@ spec:
         - name: auth
           image: st/auth
 ---
+## To communicate with auth pod, we are creating this service
 apiVersion: v1
 kind: Service
 metadata:
   name: auth-srv
+## Describes what pods to create the service for and how to communicate with it as pods are ephemeral.
 spec:
   selector:
     app: auth
