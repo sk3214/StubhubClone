@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: st/auth
+          image: us.gcr.io/ticketing-dev-406516/auth
 ---
 ## To communicate with auth pod, we are creating this service
 apiVersion: v1

@@ -7,11 +7,13 @@ deploy:
       - ./infra/k8s/*
 ## Build the image, don't push it to docker hub 
 build:
-  local:
-    push: false
+  # local:
+  #   push: false
+  googleCloudBuild:
+    projectId: ticketing-dev-406516
   artifacts:
       ## Which image to use?
-    - image: st/auth
+    - image: us.gcr.io/ticketing-dev-406516/auth
       ## Folder which contains all the files for this image
       context: auth
       docker:
