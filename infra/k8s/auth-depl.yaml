@@ -17,15 +17,17 @@ spec:
     spec:
       containers:
         - name: auth
-          image: us.gcr.io/ticketing-dev-406516/auth
+          # image: us.gcr.io/ticketing-dev-406516/auth
+          image: st/auth
 ---
-## To communicate with auth pod, we are creating this service
+## To communicate with auth pod, we are creating this service which does the communication
 apiVersion: v1
 kind: Service
 metadata:
   name: auth-srv
 ## Describes what pods to create the service for and how to communicate with it as pods are ephemeral.
 spec:
+  ## Default is clusterIP service
   selector:
     app: auth
   ports:
