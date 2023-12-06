@@ -17,7 +17,7 @@ app.use(cookieSession({
     signed: false,
     secure: true
 }));
-// app.get('/api/users/currentuser', (req, res) => {
+// app.get('/api/users/currentuser1', (req, res) => {
 //     console.log('This is the current user route');
 //     res.send('Hi there!');
 // });
@@ -32,17 +32,17 @@ app.all('*', async (req, res, next) => {
 app.use(errorHandler);
 
 const start = async () => {
-    if (!process.env.JWT_KEY) {
-        throw new Error('JWT_KEY must be defined');
-    }
-    try {
-        await mongoose.connect('mongodb://auth-mongo-srv:27017/auth');
-        console.log('Connected to MongoDB');
-    } catch (err) {
-        console.error(err);
-    }
+    // if (!process.env.JWT_KEY) {
+    //     throw new Error('JWT_KEY must be defined');
+    // }
+    // try {
+    //     await mongoose.connect('mongodb://auth-mongo-srv:27017/auth');
+    //     console.log('Connected to MongoDB');
+    // } catch (err) {
+    //     console.error(err);
+    // }
     app.listen(3000, () => {
-        console.log('Server is running on port 3000!!!');
+        console.log('Server is running on port 3000!!!!!!!!!!');
     });
 }
 
