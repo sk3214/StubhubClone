@@ -29,8 +29,8 @@ router.post('/api/users/signup', [
             id: user.id,
             email: user.email
         },
-            // process.env.JWT_KEY!
-            'crazysecretkey'
+            process.env.JWT_KEY!
+            // 'SagarKey'
         );
         req.session = {
             jwt: userJwt

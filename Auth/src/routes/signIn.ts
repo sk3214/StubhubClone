@@ -29,8 +29,8 @@ router.post('/api/users/signin', [
             id: existingUser.id,
             email: existingUser.email
         },
-            // process.env.JWT_KEY!
-            'crazysecretkey'
+            process.env.JWT_KEY!
+            // 'crazysecretkey'
         );
         req.session = {
             jwt: userJwt

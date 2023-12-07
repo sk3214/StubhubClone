@@ -19,12 +19,12 @@ spec:
         - name: auth
           # image: us.gcr.io/ticketing-dev-406516/auth
           image: st/auth
-          # env:
-          #   - name: JWT_KEY
-          #     valueFrom:
-          #       secretKeyRef:
-          #         name: jwt-secret
-          #         key: JWT_KEY
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
 ---
 ## To communicate with auth pod, we are creating this service which does the communication
 apiVersion: v1
