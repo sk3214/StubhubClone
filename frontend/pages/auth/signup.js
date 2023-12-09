@@ -1,5 +1,5 @@
-import React, { useReducer } from 'react';
-import axios from 'axios';
+import React, { useReducer,useEffect } from 'react';
+import useRequest from '../../hooks/use-request';
 
 const userReducer = (state, action) => {
   switch (action.type) {
@@ -7,9 +7,6 @@ const userReducer = (state, action) => {
       return { ...state, email: action.payload };
     case 'password':
       return { ...state, password: action.payload };
-    case 'errors':
-        console.log('action', action.payload);
-        return { ...state, errors: action.payload };
     default:
       return state;
   }
@@ -19,20 +16,23 @@ const signup = () => {
   const [userState, userDispatch] = useReducer(userReducer, {
     email: '',
     password: '',
-    errors: [],
+  });
+  const { doRequest, errors } = useRequest({
+    url: '/api/users/signup',
+    method: 'post',
+    body: userState,
+    onSuccess: (data) => {
+      console.log(data);
+    },
   });
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    console.log(userState);
-    try {
-      const response = await axios.post('/api/users/signup', userState);
-      console.log(response.data);
-    } catch (err) {
-        console.log('errs ',err.response.data.errors);
-        userDispatch({ type: 'errors', payload: err.response.data.errors });
-    }
+    console.log('Before updating Error', userState);
+    await doRequest();
   };
+
+
   return (
     <form onSubmit={onSubmit}>
       <h1>Sign Up</h1>
@@ -55,16 +55,7 @@ const signup = () => {
           }}
         />
       </div>
-      {userState.errors.length > 0 && (
-        <div className="alert alert-danger">
-          <h4>Oops...</h4>
-          <ul className="my-0">
-            {userState.errors.map((err) => (
-              <li key={err.message}>{err.message}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {errors}
       <button className="btn btn-primary">Sign Up</button>
     </form>
   );
