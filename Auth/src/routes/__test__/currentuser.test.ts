@@ -2,22 +2,24 @@ import { app } from '../../app';
 import request from 'supertest';
 
 it('responds with details about the current user', async () => {
-    const signupResponse = await request(app)
-        .post('/api/users/signup')
-        .send({
-            email: 'sagarkh@gmail.com',
-            password: 'password'
-        });
-    expect(signupResponse.status).toBe(201);
-    const cookie = signupResponse.get('Set-Cookie');
-    console.log('cookie', cookie);
-    const cookieValue = cookie[0].split(';')[0].split('=')[1];
-    const currentUserResponse = await request(app)
+    const cookieString = await global.signin();
+    // const cookies = cookieString[0].split(';');
+
+    // Find the cookie named "session"
+    // const sessionCookie = cookies.find(cookie => cookie.startsWith('session='));
+    const response = await request(app)
         .get('/api/users/currentuser')
-        .set('Cookie', cookieValue)
-        .send({});
-    console.log('currentUserResponse', currentUserResponse);
-    // Expect the response status to be 200 or adjust as needed
-    expect(currentUserResponse.status).toBe(200);
-    expect(currentUserResponse.body).toHaveProperty('email', 'sagarkh@gmail.com');
+        .set('Cookie', cookieString)
+        .send()
+    // console.log('response', response);
+    expect(response.body.currentUser.email).toEqual('sagarkh@gmail.com');
+});
+
+it("responds with null if not authenticated", async () => {
+    const response = await request(app)
+        .get("/api/users/currentuser")
+        .send()
+        .expect(400);
+    console.log('response', response);
+    expect(response.body.currentUser).toEqual(undefined);
 });

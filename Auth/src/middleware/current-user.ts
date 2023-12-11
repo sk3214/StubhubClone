@@ -26,6 +26,7 @@ export const currentUser = (req: Request, res: Response, next: NextFunction) => 
         ) as UserPayload;
         req.currentUser = payload;
     } catch (err) {
-
+        console.log('Error in current user middleware');
     }
+    next();
 };

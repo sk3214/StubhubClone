@@ -1,4 +1,5 @@
 import React, { useReducer,useEffect } from 'react';
+import Router from 'next/router';
 import useRequest from '../../hooks/use-request';
 
 const userReducer = (state, action) => {
@@ -21,9 +22,7 @@ const signup = () => {
     url: '/api/users/signup',
     method: 'post',
     body: userState,
-    onSuccess: (data) => {
-      console.log(data);
-    },
+    onSuccess: () => Router.push('/'),
   });
 
   const onSubmit = async (event) => {

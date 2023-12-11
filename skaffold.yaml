@@ -24,3 +24,12 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: st-frontend
+      context: frontend
+      docker:
+        dockerfile: Dockerfile
+      ## Sync the files from the local machine to the container
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: .
