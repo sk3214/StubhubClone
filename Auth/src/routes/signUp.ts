@@ -1,11 +1,8 @@
 import express, { Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
-import { RequestValidationError } from '../errors/request-validation-error';
+import { RequestValidationError, validateRequest, DatabaseConnectionError, BadRequestError } from '@ticketix/common';
 import { User } from '../models/user';
 import jwt from 'jsonwebtoken';
-import { validateRequest } from '../middleware/validate-request';
-import { DatabaseConnectionError } from '../errors/database-connection-error';
-import { BadRequestError } from '../errors/bad-request-error';
 
 const router = express.Router();
 
