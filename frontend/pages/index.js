@@ -1,22 +1,22 @@
 import React from 'react';
 import buildClient from '../api/build-client';
+import BaseLayout from '../Components/BaseLayout';
 
 const HomePage = ({ currentUser }) => {
   console.log('I am on client side context datta', currentUser);
-  return currentUser ? (
-    <h1>You are signed in</h1>
-  ) : (
-    <h1>You are not signed in</h1>
+  return (
+    <BaseLayout currentUser={currentUser ? currentUser.currentUser : null}>
+      <h1>Home Page</h1>
+    </BaseLayout>
   );
 };
 
-HomePage.getInitialProps = async (context) => {
-  const client = buildClient(context);
-  console.log('Before making a call to current user');
-  const { data } = await client.get('/api/users/currentuser');
-  console.log('After making a call to current user');
-  return data;
-};
+export const getServerSideProps = async (context)=>{
+  console.log('LandingPage')
+  const {data} = await buildClient(context).get('/api/users/currentuser')
+ 
+  return {props:data}
+}
 
 export default HomePage;
 

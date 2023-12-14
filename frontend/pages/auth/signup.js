@@ -1,6 +1,7 @@
-import React, { useReducer,useEffect } from 'react';
+import React, { useReducer } from 'react';
 import Router from 'next/router';
 import useRequest from '../../hooks/use-request';
+import BaseLayout from '../../Components/BaseLayout';
 
 const userReducer = (state, action) => {
   switch (action.type) {
@@ -33,6 +34,7 @@ const signup = () => {
 
 
   return (
+    <BaseLayout currentUser={currentUser && currentUser.currentUser}>
     <form onSubmit={onSubmit}>
       <h1>Sign Up</h1>
       <div className="form-group">
@@ -57,6 +59,7 @@ const signup = () => {
       {errors}
       <button className="btn btn-primary">Sign Up</button>
     </form>
+    </BaseLayout>
   );
 };
 
