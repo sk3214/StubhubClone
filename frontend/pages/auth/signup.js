@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import Router from 'next/router';
 import useRequest from '../../hooks/use-request';
 import BaseLayout from '../../Components/BaseLayout';
+import buildClient from '../../api/build-client';
 
 const userReducer = (state, action) => {
   switch (action.type) {
@@ -14,7 +15,8 @@ const userReducer = (state, action) => {
   }
 };
 
-const signup = () => {
+const signup = ({currentUser}) => {
+  console.log('currentUser in signup', currentUser);
   const [userState, userDispatch] = useReducer(userReducer, {
     email: '',
     password: '',
@@ -61,6 +63,21 @@ const signup = () => {
     </form>
     </BaseLayout>
   );
+};
+
+export const getServerSideProps = async (context) => {
+  const client = buildClient(context);
+  let currentUser;
+  try {
+    const currentUserRes = await client.get("/api/users/currentuser");
+    currentUser = currentUserRes.data;
+  } catch (e) {
+    console.log("error in sigin page", e);
+  }
+  if (!currentUser) {
+    currentUser = null;
+  }
+  return { props: { currentUser } };
 };
 
 export default signup;
